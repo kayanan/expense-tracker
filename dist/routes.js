@@ -10,12 +10,13 @@ const user_1 = require("./controller/user");
 const login_1 = require("./login");
 const authorization_1 = require("./middleware/authorization");
 const roleBaseAuth_1 = require("./middleware/roleBaseAuth");
-mongoose_1.default.connect(`mongodb+srv://kayanan96:${process.env.PASSWORD}@cluster0.yqcw3k7.mongodb.net/expenseTracker`);
-router.route("/user/login").get(login_1.login);
+const inputValidator_1 = require("./middleware/inputValidator");
+mongoose_1.default.connect(process.env.DB_URL);
+router.route("/login").get(login_1.login);
+router.route("/user/signup").post(inputValidator_1.inputValidator, user_1.addUser);
 router
     .route("/user")
     .get(authorization_1.verifeciation, user_1.retrieveUsers)
-    .post(user_1.addUser)
     .patch(authorization_1.verifeciation, roleBaseAuth_1.adminAccess, user_1.updateUser)
     .delete(authorization_1.verifeciation, roleBaseAuth_1.adminAccess, user_1.deleteUser);
 router.route("/bank").get().post().patch().delete();

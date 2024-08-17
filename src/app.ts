@@ -1,11 +1,8 @@
 import express, { Application } from "express";
 import { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
-import env from "dotenv";
+
 import router from "./routes";
-
-env.config();
-
 
 export const appRouting = (app: Application): void => {
   app.use(morgan("dev"));

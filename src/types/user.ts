@@ -4,6 +4,17 @@ export const enum Role {
   USER = "user",
   ADMIN = "admin",
 }
+export const enum UserKey{
+    ID="_id",
+    NAME="name",
+    NIC="nic",
+    USER_NAME="userName",
+    PASSWORD="password",
+    STATUS="status",
+    EMAIL="email",
+    MOBILE="mobile",
+    ROLE="role"
+}
 export const enum Status {
   ACTIVE = "active",
   DEACTIVE = "deactive",
@@ -25,14 +36,14 @@ export type user = {
 
 export interface InterfaceUser {
   _id: mongoose.ObjectId;
-  name: String;
-  nic: String;
-  userName: String;
-  password: String;
+  name: string;
+  nic: string;
+  userName: string;
+  password: string;
   createdAt?: Date;
-  status?: String;
+  status?: Status;
   login: {};
-  email: String;
-  mobile: String;
-  role: String;
+  email: string;
+  mobile: string;
+  role: Role;
 }

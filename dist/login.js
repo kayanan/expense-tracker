@@ -18,7 +18,6 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const authorization_1 = require("./middleware/authorization");
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const Result = yield userSchema_1.default.find({ userName: req.body.userName });
-    console.log(Result);
     const match = yield bcrypt_1.default.compare(req.body.password, Result[0].password.toString());
     if (Result[0].userName == req.body.userName && match) {
         const token = yield (0, authorization_1.createToken)(Result[0]);

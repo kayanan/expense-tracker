@@ -35,6 +35,7 @@ const addUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const hashedPassword = yield bcrypt_1.default.hash(req.body.password, 10);
         const tempUser = Object.assign({}, req.body);
         tempUser.password = hashedPassword;
+        tempUser.status = "active" /* Status.ACTIVE */;
         const user = new userSchema_1.default(tempUser);
         const result = yield user.save();
         res.status(201).json({ created: result });

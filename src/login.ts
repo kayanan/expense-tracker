@@ -5,17 +5,20 @@ import { createToken } from "./middleware/authorization";
 
 export const login = async (req: Request, res: Response) => {
   const Result = await userModel.find({ userName: req.body.userName });
-  console.log(Result);
-  const match = await bcrypt.compare(
+  const match=  await bcrypt.compare(
     req.body.password,
     Result[0].password.toString()!
-  );
-  if (Result[0].userName == req.body.userName && match) {
+  )
+  if (Result[0].userName == req.body.userName && match ) {
     const token = await createToken(Result[0]);
     if (token) {
+      
       res.status(200).json({
         token: token,
       });
+    
+      
+
     } else {
       res.status(500).json({
         error: "internal error",

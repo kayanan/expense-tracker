@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 // import {InterfaceUser} from "../types/user"
 import userModel from "./model/userSchema";
 import bcrypt from "bcrypt";
+import { Status, user } from "../types/user";
 
 //retrieveUsers from data base
 
@@ -18,11 +19,12 @@ export const retrieveUsers = async (req: Request, res: Response) => {
 
 // addUser in to data base
 
-export const addUser = async (req: Request, res: Response) => {
+export const addUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const tempUser = { ...req.body };
+    const tempUser: user = { ...req.body };
     tempUser.password = hashedPassword;
+    tempUser.status = Status.ACTIVE;
     const user = new userModel(tempUser);
     const result = await user.save();
     res.status(201).json({ created: result });

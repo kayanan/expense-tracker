@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 // import {InterfaceUser} from "../types/user"
-import userModel from "./model/userSchema";
+import userModel from "../model/userSchema";
 import bcrypt from "bcrypt";
 import { Status, user } from "../types/user";
 

@@ -13,12 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = void 0;
-const userSchema_1 = __importDefault(require("./controller/model/userSchema"));
+const userSchema_1 = __importDefault(require("./model/userSchema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const authorization_1 = require("./middleware/authorization");
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const Result = yield userSchema_1.default.find({ userName: req.body.userName });
     const match = yield bcrypt_1.default.compare(req.body.password, Result[0].password.toString());
+    console.log(Result[0]);
     if (Result[0].userName == req.body.userName && match) {
         const token = yield (0, authorization_1.createToken)(Result[0]);
         if (token) {

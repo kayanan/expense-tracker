@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { InterfaceUser, Role, Status } from "../../types/user";
+import { InterfaceUser, Role, Status } from "../types/user";
 
 const Schema = mongoose.Schema;
 const userSchema = new Schema<InterfaceUser>({

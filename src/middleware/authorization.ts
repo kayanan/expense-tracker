@@ -4,7 +4,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 //createToken
 export const createToken = async (user: any) => {
   try {
-    const token = jwt.sign({ ...user }, process.env.SECRET!, { expiresIn: "1h" });
+    const token = jwt.sign({...user}, process.env.SECRET!, { expiresIn: "1h" });
     return token;
   } catch (error) {
     console.log("internal Error");

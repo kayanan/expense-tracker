@@ -1,65 +1,56 @@
-import { Request, Response, NextFunction } from "express";
-// import {InterfaceUser} from "../types/user"
+import { Request, Response } from "express";
 import userModel from "../model/userSchema";
 import bcrypt from "bcrypt";
 import { Status, user } from "../types/user";
 
-//retrieveUsers from data base
-
+// Retrieve all users from the database
 export const retrieveUsers = async (req: Request, res: Response) => {
   try {
-    const result = await userModel.find();
-    res.status(200).json({
-      result: result,
-    });
-  } catch (err) {
-    console.log(err);
+    const users = await userModel.find();
+    res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve users" });
   }
 };
 
-// addUser in to data base
-
+// Add a new user to the database
 export const addUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const tempUser: user = { ...req.body };
-    tempUser.password = hashedPassword;
-    tempUser.status = Status.ACTIVE;
-    const user = new userModel(tempUser);
-    const result = await user.save();
-    res.status(201).json({ created: result });
+    const newUser: user = { ...req.body, password: hashedPassword, status: Status.ACTIVE };
+    const createdUser = await new userModel(newUser).save();
+    res.status(201).json({ created: createdUser });
   } catch (error) {
-    res.status(500).json({
-      error: error,
-    });
+    res.status(500).json({ error: "Failed to add user" });
   }
 };
 
-// updateUser from data base
-
+// Update a user in the database
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const result = await userModel.findOneAndUpdate(
+    const updatedUser = await userModel.findOneAndUpdate(
       { userName: req.body.userName },
-      { ...req.body }
+      { ...req.body },
+      { new: true }
     );
-    res.status(201).json({
-      sucess: result,
-    });
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ success: updatedUser });
   } catch (error) {
-    res.status(500).json({
-      "update fail": error,
-    });
+    res.status(500).json({ error: "Failed to update user" });
   }
 };
-// deleteUser from data base
+
+// Delete a user from the database
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const result = await userModel.deleteOne({ _id: req.body._id });
-    res.status(201).json({ "deleted sucessfully": result });
+    const deletedUser = await userModel.findByIdAndDelete(req.body._id);
+    if (!deletedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ success: "User deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      "deletion Failed": error,
-    });
+    res.status(500).json({ error: "Failed to delete user" });
   }
 };

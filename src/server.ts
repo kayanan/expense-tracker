@@ -1,13 +1,10 @@
-// import env from "dotenv";
-// env.config();
 import express from "express";
 import { appRouting } from "./app";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-console.log(process.env.PORT);
-
+const { PORT = 3000 } = process.env;
 appRouting(app);
+
 app.listen(PORT, () => {
-  console.log("Server is running");
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

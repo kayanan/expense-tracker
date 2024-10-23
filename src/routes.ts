@@ -7,7 +7,7 @@ import {
   updateUser,
   deleteUser,
 } from "./controller/user";
-import { login } from "./login";
+import { login } from "./middleware/login";
 import { verifeciation } from "./middleware/authorization";
 import { adminAccess } from "./middleware/roleBaseAuth";
 import { inputValidator } from "./middleware/inputValidator";

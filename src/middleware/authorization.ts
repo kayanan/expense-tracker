@@ -21,7 +21,6 @@ export const verifeciation = (
     if (req.body.token) {
       const decoded: any = jwt.verify(req.body.token, process.env.SECRET!);
       if (decoded) {
-        console.log(decoded._doc.role);
         req.body.role = decoded._doc.role;
         next();
       } else {

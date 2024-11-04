@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
-import userModel from "../model/userSchema";
+import userModel from "../module/user/userSchema";
 import bcrypt from "bcrypt";
 import { createToken } from "./authorization";
 
 export const login = async (req: Request, res: Response) => {
+  if(!req.body.userName){
+    return res.status(401).json({ error: "Login failed" });
+  }
   try {
+
     const user = await userModel.findOne({ userName: req.body.userName });
     if (!user) {
       return res.status(401).json({ error: "Login failed" });

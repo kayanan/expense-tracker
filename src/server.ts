@@ -1,5 +1,5 @@
 import express from "express";
-import { appRouting } from "./app";
+import { appRouting } from "./middleware/app";
 
 const app = express();
 const { PORT = 3000 } = process.env;

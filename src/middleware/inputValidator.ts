@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { user, UserKey } from "../types/user";
+import { user, UserKey } from "../module/user/types/user";
 
 const Pattern = {
   email: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,

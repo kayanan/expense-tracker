@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Role } from "../types/user";
+import { Role } from "../module/user/types/user";
 
 export const adminAccess = (
   req: Request,

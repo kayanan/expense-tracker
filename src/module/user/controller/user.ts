@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import userModel from "../model/userSchema";
+import userModel from "../userSchema";
 import bcrypt from "bcrypt";
 import { Status, user } from "../types/user";
 

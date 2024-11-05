@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import morgan from "morgan";
-import router from "../module/user/routes";
+import router from "../module/user/userRoutes";
 import connectDb from "../db/databaseConnection"
 import routes from "../index";
 

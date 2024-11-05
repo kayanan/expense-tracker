@@ -42,9 +42,7 @@ export const inputValidator = (
   }
   if (correct<2) {
     res.status(400).json(errorMessage);
-    console.log("hida")
   } else {
-    console.log("bye da")
     next();
     
   }

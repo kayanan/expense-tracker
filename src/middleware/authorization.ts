@@ -12,7 +12,7 @@ export const createToken = async (user: any) => {
   }
 };
 //verifeciation usin jwt token
-export const verifeciation = (
+export const tokenVerifeciation = (
   req: Request,
   res: Response,
   next: NextFunction

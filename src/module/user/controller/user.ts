@@ -6,8 +6,20 @@ import { Status, user } from "../types/user";
 // Retrieve all users from the database
 export const retrieveUsers = async (req: Request, res: Response) => {
   try {
-    const users = await userModel.find();
+    const rawUsers = await userModel.find();
+    const users= rawUsers.map((user)=>{return{name:user.name,nic:user.nic,userName:user.userName,mobile:user.mobile}})
     res.status(200).json({ users });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve users" });
+  }
+};
+
+// Retrieve specific users from the database
+export const retrieveUser = async (req: Request, res: Response) => {
+  try {
+    const user = await userModel.findById(req.params.id);
+  
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve users" });
   }
@@ -45,7 +57,7 @@ export const updateUser = async (req: Request, res: Response) => {
 // Delete a user from the database
 export const deleteUser = async (req: Request, res: Response) => {
   try {
-    const deletedUser = await userModel.findByIdAndDelete(req.body._id);
+    const deletedUser = await userModel.findByIdAndDelete(req.params.id);
     if (!deletedUser) {
       return res.status(404).json({ error: "User not found" });
     }

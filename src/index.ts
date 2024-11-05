@@ -1,10 +1,11 @@
 import { Application } from "express"
-import userRout from "./module/user/routes"
+import userRoute from "./module/user/userRoutes"
+import bankRoute from "./module/bank/bankRoute";
 
 const routes=(app:Application)=>{
 
-app.use("/user",userRout);
-
+app.use("/user",userRoute);
+app.use("/bank",bankRoute);
 }
 
 export default routes;

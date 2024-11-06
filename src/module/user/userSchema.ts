@@ -4,6 +4,7 @@ import { InterfaceUser, Role, Status } from "./types/user";
 const { Schema } = mongoose;
 
 const userSchema = new Schema<InterfaceUser>({
+  _id:mongoose.Schema.ObjectId,
   name: { type: String, required: true },
   nic: { type: String, required: true, unique: true },
   userName: { type: String, required: true, unique: true },

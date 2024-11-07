@@ -1,8 +1,6 @@
 import { Request,Response,NextFunction } from "express";
 import bankModel from "../bankSchema";
 import mongoose from "mongoose";
-import {Bank} from "../types/bankTypes"
-
 
 //Get all bank details from DB
 
@@ -19,8 +17,7 @@ export const getAllBank=async(req:Request,res:Response)=>{
 export const addBank=async(req:Request,res:Response)=>{
     const bank =new bankModel({
         _id:new mongoose.Types.ObjectId(),
-    bankName:req.body.bankName,
-    baranchId:[req.body.baranchId]
+        ...req.body
     })
 try{
      const result= await bank.save();
@@ -54,18 +51,46 @@ export const deleteBank= async (req: Request, res: Response) => {
 
 // Update a bank in the database
 export const updateBank = async (req: Request, res: Response) => {
+        if(req.body.createdAt ||req.body.baranchIds ||req.body._id){
+            return res.status(403).json({"message":"Forbidden"})
+        }
+
     
     try {
-      const updatedUser = await bankModel.findOneAndUpdate(
-        { bankName: req.body.bankName },
-        {  },
+      const updatedBank = await bankModel.findByIdAndUpdate(
+        req.params.id,
+        { ...req.body},
         { new: true }
       );
-      if (!updatedUser) {
+      if (!updatedBank) {
         return res.status(404).json({ error: "User not found" });
       }
-      res.status(200).json({ success: updatedUser });
+      res.status(200).json({ success: updatedBank });
     } catch (error) {
       res.status(500).json({ error: "Failed to update user" });
     }
   };
+
+
+
+  // Add bank Branches to DB
+export const addBranch=async(req:Request,res:Response)=>{
+    const bank =new bankModel({
+        _id:new mongoose.Types.ObjectId(),
+        ...req.body
+    })
+try{
+     const result= await bank.save();
+
+     res.status(201).json({
+        "message":"Created Sucessfuly"
+     })
+}
+catch(error){
+    res.status(500).json({
+        "message":"Failed... Plese try again later"
+     })
+    }
+   
+
+}

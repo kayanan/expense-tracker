@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {InterfaceBankBranch} from "./types/bankTypes"
+import {InterfaceBankBranch,Status} from "./types/bankTypes"
 
 const Schema =mongoose.Schema;
 
@@ -22,7 +22,13 @@ const branchSchema= new Schema<InterfaceBankBranch>({
 
         }
 
-    }}
+    }},
+    createdAt: { type: Date, default: Date.now },
+    status: {
+    type: String,
+    enum: [Status.ACTIVE, Status.DEACTIVE],
+    default: Status.ACTIVE,
+  }
     
 
 })

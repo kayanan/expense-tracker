@@ -1,11 +1,17 @@
 import mongoose from "mongoose";
-import {InterfaceBank} from "./types/bankTypes"
+import {InterfaceBank,Status} from "./types/bankTypes"
 const Schema =mongoose.Schema;
 
 const bankSchema =new Schema<InterfaceBank>({
     _id:mongoose.Schema.Types.ObjectId,
     bankName:{type:String,required:true},
-    baranchId:{type:[mongoose.Schema.Types.ObjectId],ref:"BankBranch"},
+    baranchIds:{type:[mongoose.Schema.Types.ObjectId],ref:"BankBranch"},
+    createdAt: { type: Date, default: Date.now },
+    status: {
+    type: String,
+    enum: [Status.ACTIVE, Status.DEACTIVE],
+    default: Status.ACTIVE,
+  }
     
 })
 

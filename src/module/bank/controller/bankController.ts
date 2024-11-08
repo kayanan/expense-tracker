@@ -51,7 +51,7 @@ export const deleteBank= async (req: Request, res: Response) => {
 
 // Update a bank in the database
 export const updateBank = async (req: Request, res: Response) => {
-        if(req.body.createdAt ||req.body.baranchIds ||req.body._id){
+        if(req.body.createdAt ||req.body._id){
             return res.status(403).json({"message":"Forbidden"})
         }
 
@@ -73,17 +73,20 @@ export const updateBank = async (req: Request, res: Response) => {
 
 
 
-  // Add bank Branches to DB
-export const addBranch=async(req:Request,res:Response)=>{
-    const bank =new bankModel({
-        _id:new mongoose.Types.ObjectId(),
-        ...req.body
-    })
-try{
-     const result= await bank.save();
+  // Branches Operations
 
+
+  //Add branch
+export const addBranch=async(req:Request,res:Response)=>{
+    
+try{
+    const branch = await bankModel.findByIdAndUpdate(
+        req.params.id,
+        { $push: { baranchIds: {_id:new mongoose.Types.ObjectId(),...req.body} }},
+        { new: true }
+      );
      res.status(201).json({
-        "message":"Created Sucessfuly"
+        "message":"Created Sucessfuly "
      })
 }
 catch(error){
@@ -94,3 +97,27 @@ catch(error){
    
 
 }
+
+
+// Delete branch
+
+export const deleteBranch=async(req:Request,res:Response)=>{
+    
+    try{
+        const branch = await bankModel.findByIdAndUpdate(
+            req.params.id,
+            { $pull: { baranchIds: req.params.branchId }},
+            { new: true }
+          );
+         res.status(201).json({
+            "message":"Deleted Sucessfuly "
+         })
+    }
+    catch(error){
+        res.status(500).json({
+            "message":"Failed... Plese try again later"
+         })
+        }
+       
+    
+    }
